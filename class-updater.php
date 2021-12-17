@@ -6,9 +6,8 @@ class ThemeUpdater {
     public $version;
 
     public function __construct() {
-        $this->theme_slug = "style.css";
-        $this->theme_data_file = PARENT_THEME_DIR . "style.css";
-        $this->theme_data = wp_get_theme( $this->theme_data_file );
+        $this->theme_slug = get_template();
+        $this->theme_data = wp_get_theme( $this->theme_slug );
         $this->version = $this->theme_data['Version'];
         $this->jsonURL = "https://raw.githubusercontent.com/pixelpad-io/api-global-theme/master/info.json";
 
@@ -18,12 +17,12 @@ class ThemeUpdater {
     }
 
     public function info($res, $action, $args) {
+        error_log($action);
+        return;
+
         if ("theme_information" !== $action) {
             return false;
         }
-        error_log($args->slug);
-        return;
-
         if ($this->theme_slug !== $args->slug) {
             return false;
         }
@@ -62,20 +61,16 @@ class ThemeUpdater {
         }
 
         $remote = $this->request();
-
-        
-        error_log(print_r($remote, true));
-
-
         if ($remote && version_compare($this->version, $remote->version, "<")) {
-            $res = new stdClass();
-            $res->slug = $this->theme_slug;
-            $res->theme = $this->theme_data_file;
-            $res->new_version = $remote->version;
-            $res->tested = $remote->tested;
-            $res->package = $remote->download_url;
-
-            $transient->response[$res->theme] = $res;
+            $res = array(
+                'theme'        => $this->theme_slug,
+                'new_version'  => $remote->version,
+                'url'          => '',
+                'package'      => $remote->download_url,
+                'requires'     => '',
+                'requires_php' => '',
+            );
+            $transient->response[$this->theme_slug] = $res;
         }
         return $transient;
     }
