@@ -9,9 +9,14 @@
     "tested": "5.8.2",
     "requires_php": "8.0",
     "last_updated": "",
+    "fields" : {
+        "homepage" : "https://pixelpad.io/",
+        "downloadlink": "https://github.com/pixelpad-io/api-global-theme/archive/refs/heads/master.zip"
+    },
     "sections": {
         "description": "PixelPAD Global theme",
-        "installation": "",
-        "changelog": ""
+        "installation" : "Installation instructions",
+        "changelog": "",
+        "FAQ": "this is the faq"
     }
 }
