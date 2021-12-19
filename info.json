@@ -3,7 +3,7 @@
     "slug": "api-global-theme",
     "author": "pixelpad-io",
     "author_profile": "",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "download_url": "https://github.com/pixelpad-io/api-global-theme/archive/refs/heads/master.zip",
     "requires": "5.8.2",
     "tested": "5.8.2",
