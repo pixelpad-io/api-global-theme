@@ -7,7 +7,7 @@ define("GLOBAL_THEME_DIR", dirname(__FILE__));
  */
 add_action("init", function () {
     require_once(GLOBAL_THEME_DIR . "/class-front-page.php");
-});
+}, 1);
 
 /**
  * load necessary admin files
