@@ -7,46 +7,14 @@ class ThemeUpdater {
 
     public function __construct() {
         $this->theme_slug = get_template();
-        $this->theme_data = wp_get_theme( $this->theme_slug );
+        $this->theme_data = wp_get_theme($this->theme_slug);
         $this->version = $this->theme_data['Version'];
         $this->jsonURL = "https://raw.githubusercontent.com/pixelpad-io/api-global-theme/master/info.json";
 
-        add_filter("themes_api", array($this, "info"), 20, 3);
         add_filter("site_transient_update_themes", array($this, "update"));
 
-    }
+        //add_filter("themes_api", array($this, "info"), 20, 3);
 
-    public function info($res, $action, $args) {
-
-        if ("theme_information" !== $action) {
-            return false;
-        }
-        if ($this->theme_slug !== $args->slug) {
-            return false;
-        }
-
-        $remote = $this->request();
-        if (!$remote) {
-            return false;
-        }
-
-        $res = new stdClass();
-
-        $res->name = $remote->name;
-        $res->slug = $remote->slug;
-        $res->version = $remote->version;
-        $res->stylesheet = $remote->stylesheet;
-        $res->fields = array(
-            "homepage" => $remote->fields->homepage,
-            "downloadlink" => $remote->fields->downloadlink
-        );
-        $res->sections = array(
-            "description" => $remote->sections->description,
-            "installation" => $remote->sections->installation,
-            "changelog" => $remote->sections->changelog,
-            "FAQ" => $remote->sections->faq
-        );
-        return $res;
     }
 
     public function update($transient) {
@@ -92,4 +60,38 @@ class ThemeUpdater {
         $remote = json_decode(wp_remote_retrieve_body($remote));
         return $remote;
     }
+
+    /**
+     * in the plugin, this is called when the user clicks on "view update details"
+     * I cannot invoke this function manually. after numerous attempts at error_logging
+     * in several points in this function, the only time it seems to be called is when a
+     * theme gets installed. the link "view version xxxx details" calls the themeUpdater::update
+     * function, not this function. we don't seem to need this function, so we'll comment it out for now
+     */
+    /*
+    public function info($res, $action, $args) {
+        if ("theme_information" !== $action) {
+            return false;
+        }
+        if ($this->theme_slug !== $args->slug) {
+            return false;
+        }
+        $remote = $this->request();
+        if (!$remote) {
+            return false;
+        }
+        $res = new stdClass();
+        $res->name = $remote->name;
+        $res->slug = $remote->slug;
+        $res->version = $remote->version;
+        $res->sections = array(
+            "description" => $remote->sections->description,
+            "installation" => $remote->sections->installation,
+            "changelog" => $remote->sections->changelog,
+            "FAQ" => $remote->sections->faq
+        );
+        return $res;
+    }
+    */
+
 }
