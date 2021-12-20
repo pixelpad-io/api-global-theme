@@ -17,6 +17,6 @@
         "description": "PixelPAD Global theme",
         "installation" : "Installation instructions",
         "changelog": "",
-        "FAQ": "this is the faq"
+        "faq": "this is the faq"
     }
 }

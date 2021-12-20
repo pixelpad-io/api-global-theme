@@ -17,9 +17,7 @@ class ThemeUpdater {
     }
 
     public function info($res, $action, $args) {
-        error_log($action);
-        return;
-
+        
         if ("theme_information" !== $action) {
             return false;
         }
@@ -37,19 +35,15 @@ class ThemeUpdater {
         $res->name = $remote->name;
         $res->slug = $remote->slug;
         $res->version = $remote->version;
-        $res->tested = $remote->tested;
-        $res->requires = $remote->requires;
-        $res->author = $remote->author;
-        $res->author_profile = $remote->author_profile;
-        $res->download_link = $remote->download_url;
-        $res->trunk = $remote->download_url;
-        $res->requires_php = $remote->requires_php;
-        $res->last_updated = $remote->last_updated;
-
+        $res->fields = array(
+            "homepage" => $remote->fields->homepage,
+            "downloadlink" => $remote->fields->downloadlink
+        );
         $res->sections = array(
             "description" => $remote->sections->description,
             "installation" => $remote->sections->installation,
-            "changelog" => $remote->sections->changelog
+            "changelog" => $remote->sections->changelog,
+            "FAQ" => $remote->sections->faq
         );
         return $res;
     }
