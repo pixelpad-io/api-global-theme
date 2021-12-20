@@ -17,7 +17,7 @@ class ThemeUpdater {
     }
 
     public function info($res, $action, $args) {
-        
+
         if ("theme_information" !== $action) {
             return false;
         }
@@ -35,6 +35,7 @@ class ThemeUpdater {
         $res->name = $remote->name;
         $res->slug = $remote->slug;
         $res->version = $remote->version;
+        $res->stylesheet = $remote->stylesheet;
         $res->fields = array(
             "homepage" => $remote->fields->homepage,
             "downloadlink" => $remote->fields->downloadlink
